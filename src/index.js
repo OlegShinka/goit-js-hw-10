@@ -8,29 +8,26 @@ refs.loaderEl.classList.add('js-hidden');
 
 refs.selectEl.addEventListener('change', onBreedSelect);
 function onBreedSelect(evt) {
-  console.log(evt.currentTarget);
-
+  refs.loaderEl.classList.remove('js-hidden');
   fetchCatByBreed(evt.currentTarget.value)
     .then(catAr => {
-      if (!refs.loaderEl.classList.contains('js-hidden')) {
-        refs.loaderEl.classList.add('js-hidden');
-      }
+      //   if (!refs.loaderEl.classList.contains('js-hidden')) {
+      //     refs.loaderEl.classList.add('js-hidden');
+      //   }
+
       const cat = catAr[0];
       const markup = `<img src="${cat.url}" alt="${cat.url}" width = 500  />
       <div class="cat-disc">
        <h2>${cat.breeds[0].name}</h2>
        <p>${cat.breeds[0].description}</p>
        <p><b>Temperament: </b>${cat.breeds[0].temperament}</p> </div>`;
-      //elements.catInfo.insertAdjacentHTML('afterBegin', markup);
+
       refs.infoEl.innerHTML = markup;
     })
-    // .then(mark => {
-    //   console.log(mark);
-    //   markupCatByBreed(mark);
-    // })
     .catch(err => {
       console.log(err);
-    });
+    })
+    .finally(() => refs.loaderEl.classList.add('js-hidden'));
 }
 
 function fetchBreeds() {
